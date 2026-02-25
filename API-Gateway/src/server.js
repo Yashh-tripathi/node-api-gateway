@@ -6,6 +6,7 @@ const createProxy = require("./proxy/proxy.js");
 const authMiddleware = require("./middleware/auth.middleware.js");
 const rateLimiterMiddleware = require("./middleware/rateLimiter.middleware.js");
 const rbac = require("./middleware/rbac.middleware.js");
+const requestLoggerMiddleware = require("./middleware/requestLogger.middleware.js");
 const app = express();
 
 
@@ -14,6 +15,8 @@ app.get("/", async (req, res) => {
     const value = await redis.get("test");
     res.send(value);
 });
+
+app.use(requestLoggerMiddleware);
 
 // Correct routing
 app.use("/users",
